@@ -8,24 +8,27 @@ class Game():
     def play(self):
         while True: 
             worldType = input("Generate new world or load save: n/l")
-            if worldType in ("n","l"):
-               break
+            if worldType == "n":
+                while True:
+                    worldLength = input("How long would you like the world to be:")
+                    worldHeight = input("How tall would you like the world to be:")
+                    if int(worldLength) >= 3 and int(worldHeight) >= 3:
+                        break
+                    print("Invalid size, world must be at least 3 x 3")
 
-        if worldType == "n":
-            while True:
-                worldLength = input("How long would you like the world to be:")
-                worldHeight = input("How tall would you like the world to be:")
-                if int(worldLength) >= 3 and int(worldHeight) >= 3:
+                self.world = World(int(worldLength),int(worldHeight))
+                self.player = Player(self.world)
+                self.world.generateWorld()
+                self.player.spawn("new")
+                break
+            elif worldType == "l":
+                try:
+                    self.world.loadSave()
+                    self.player.spawn("loaded")
                     break
-                print("Invalid size, world must be at least 3 x 3")
+                except:
+                    print("error loading world from save")
 
-            self.world = World(int(worldLength),int(worldHeight))
-            self.player = Player(self.world)
-            self.world.generateWorld()
-            self.player.spawn("new")
-        elif worldType == "l":
-            self.world.loadSave()
-            self.player.spawn("loaded")
 
         self.world.displayWorld()
         while True:

@@ -135,22 +135,25 @@ class World():
                 f.write(f"{self.worldArray[x][y].showId()}\n")
         f.close
     def loadSave(self): 
-        f = open("saveFile.txt","r")
-        saveArray = f.readlines()
-        self.length = int(str(saveArray[0]).strip())
-        self.height = int(str(saveArray[1]).strip())
-        for y in range(0,self.height):
-            self.worldArray.append([])
-            for x in range(0,self.length):
-                self.worldArray[y].append("")
+        try:
+            f = open("saveFile.txt","r")
+            saveArray = f.readlines()
+            self.length = int(str(saveArray[0]).strip())
+            self.height = int(str(saveArray[1]).strip())
+            for y in range(0,self.height):
+                self.worldArray.append([])
+                for x in range(0,self.length):
+                    self.worldArray[y].append("")
 
-        saveArrayIndex = 4
-        for y in range(0,self.height):
-            for x in range(0,self.length):
-                for tileCheck in range(0,len(self.allTiles)):
-                    if str(saveArray[saveArrayIndex]).strip() == self.allTiles[tileCheck].showId():
-                        self.worldArray[y][x] = self.allTiles[tileCheck]
-                saveArrayIndex += 1
+            saveArrayIndex = 4
+            for y in range(0,self.height):
+                for x in range(0,self.length):
+                    for tileCheck in range(0,len(self.allTiles)):
+                        if str(saveArray[saveArrayIndex]).strip() == self.allTiles[tileCheck].showId():
+                            self.worldArray[y][x] = self.allTiles[tileCheck]
+                    saveArrayIndex += 1
+        except:
+            print("no save file found")
 
         
 
